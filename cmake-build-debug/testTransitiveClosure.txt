@@ -1,0 +1,6 @@
+N = 5; amount pair = 1; min k = 600; max k = 600.
+N = 5; amount pair = 1; min k = 125; max k = 125.
+N = 10; amount pair = 1; min k = 9900; max k = 9900.
+N = 10; amount pair = 1; min k = 1000; max k = 1000.
+N = 15; amount pair = 1; min k = 50400; max k = 50400.
+N = 15; amount pair = 1; min k = 3375; max k = 3375.

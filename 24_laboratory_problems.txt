@@ -1,0 +1,98 @@
+#include <iostream>
+
+using namespace std;
+
+void task_1_1() {
+    string s;
+    cin >> s;
+
+    char row = s[s.size() - 1];
+    s.erase(s.size() - 1);
+
+    long long col = stoll(s);
+
+    long long sum = 0;
+    if ((col - 1) / 4)
+        sum += (col - 1) / 4 * 16;
+
+    long long formula = (col - ((col - 1) / 4) * 4);
+    if ((formula == 2 or formula == 4)) {
+        sum += 7;
+    }
+
+    switch (row) {
+        case 'f':
+            sum += 1;
+            break;
+        case 'e':
+            sum += 2;
+            break;
+        case 'd':
+            sum += 3;
+            break;
+        case 'a':
+            sum += 4;
+            break;
+        case 'b':
+            sum += 5;
+            break;
+        case 'c':
+            sum += 6;
+            break;
+        default:
+            break;
+    }
+
+    cout << sum;
+}
+
+void task_1_2() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m, begin_x, begin_y, end_x, end_y;
+        cin >> n >> m >> begin_x >> begin_y >> end_x >> end_y;
+
+        int dr = 1, dc = 1;
+        int time = 0;
+        while (begin_x != end_x and begin_y != end_y) {
+            if (begin_x == n)
+                dr *= -1;
+
+            if (begin_y == m)
+                dc *= -1;
+
+            time++;
+            begin_x += dr;
+            begin_y += dc;
+        }
+
+        cout << time << '\n';
+    }
+}
+
+void task_1_4() {
+    int c;
+    int countPlus = 0;
+    int countMinus = 0;
+    do {
+        c = getchar();
+
+        if (c == '+') {
+            countPlus++;
+        }
+
+        if (c == '-') {
+            countMinus++;
+        }
+    } while (c != '\n');
+
+    cout << abs(countPlus - countMinus);
+}
+
+int main() {
+    task_1_4();
+
+
+    return 0;
+}
