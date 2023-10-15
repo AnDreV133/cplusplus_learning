@@ -1115,8 +1115,10 @@ size_t getFuncN2(size_t n) {
     return (size_t) pow(n, 2);
 }
 
-void gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(ofstream& outpustStream, int powerOfSet, int amountPair,
-                                                                    vector<vector<bool>> (*operation)(vector<vector<bool>>&)) {
+void
+gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(ofstream &outpustStream, int powerOfSet, int amountPair,
+                                                               vector<vector<bool>> (*operation)(
+                                                                       vector<vector<bool>> &)) {
     size_t minNumOfExecutions = ULONG_LONG_MAX;
     size_t maxNumOfExecutions = 0;
     for (int i = 0; i < 1000; ++i) {
@@ -1130,14 +1132,18 @@ void gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(ofstream& ou
     }
 
     outpustStream << "N = " << powerOfSet << "; "
-           << "amount pair = " << amountPair << "; "
-           << "min k = " << minNumOfExecutions << "; "
-           << "max k = " << maxNumOfExecutions << ".\n";
+                  << "amount pair = " << amountPair << "; "
+                  << "min k = " << minNumOfExecutions << "; "
+                  << "max k = " << maxNumOfExecutions << ".\n";
 }
 
-int main() {
-    outputTableOfState(getTableOfStateOfVariableByCNFFuncGottenFromString("x|y&z"));
+#include "CNFCalculator.h"
 
+int main() {
+    TableOfStateOfVariable tableOfStateOfVariable =
+            getTableOfStateOfVariableByCNFFuncGottenFromString("(x|y)&z");
+    outputTableOfState(tableOfStateOfVariable);
+    outputMatrix(getTruthTable(tableOfStateOfVariable));
 
 //    vector<vector<bool>> A = {
 //            {0, 1, 0, 0, 0},

@@ -41,4 +41,10 @@ TableOfStateOfVariable getTableOfStateOfVariableByCNFFuncGottenFromString(const 
 
 void outputTableOfState(const TableOfStateOfVariable& tableOfStateValues);
 
+void generateBodyTruthTable(vector<vector<bool>> &truthTable, int index, int size, int current[]);
+
+void outputMatrix(const vector<vector<bool>> &matrix);
+
+vector<vector<bool>> getTruthTable(const TableOfStateOfVariable &tableOfStateOfVariable);
+
 #endif //CPLUSPLUS_LEARNING_CNFCALCULATOR_H
