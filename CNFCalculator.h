@@ -37,9 +37,9 @@ void setBinFunc(BinFunc &binFunc);
 
 bool checkResult(const BinFunc &binFunc);
 
-TableOfStateOfVariable getTableOfStateOfVariableByCNFFuncGottenFromString(const string &expression);
+TableOfStateOfVariable getTableOfStateOfVariableByCNFFunc(const string &expression);
 
-void outputTableOfState(const TableOfStateOfVariable& tableOfStateValues);
+void outputTableOfState(const TableOfStateOfVariable &tableOfStateValues);
 
 void generateBodyTruthTable(vector<vector<bool>> &truthTable, int index, int size, int current[]);
 
@@ -47,7 +47,13 @@ void outputMatrix(const vector<vector<bool>> &matrix);
 
 vector<vector<bool>> getTruthTable(const TableOfStateOfVariable &tableOfStateOfVariable);
 
-void outputTruthTableByTableOfState(const TableOfStateOfVariable& tableOfStateOfVariable);
+void outputTruthTable(const TableOfStateOfVariable &tableOfStateOfVariable);
+
+void outputTruthTable(const string& expression);
+
+bool isFormulaInconsistent(const TableOfStateOfVariable &tableOfStateOfVariable);
+
+bool isFormulaInconsistent(const string &expression);
 
 
 #endif //CPLUSPLUS_LEARNING_CNFCALCULATOR_H

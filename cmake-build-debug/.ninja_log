@@ -1,10 +1,17 @@
 # ninja log v5
-3	942	7190883735748238	CMakeFiles/cplusplus_learning.dir/main.cpp.obj	c3a626aeabb633b0
-741	833	7190883686913514	libCNFCalculator.a	f98a18b09f4a6f16
-943	1134	7190883737560203	cplusplus_learning.exe	3432c1bf7db67874
-39	601	7039738379486333	CMakeFiles/cplusplus_learning.dir/codeforce.cpp.obj	96262663bbb91bbe
-8	913	7188053179631837	CMakeFiles/cplusplus_learning.dir/CNFCalculator.cpp.obj	6c6953084fd680d9
-3	740	7190883685962370	CMakeFiles/CNFCalculator.dir/CNFCalculator.cpp.obj	bbbd58c4b9faa37e
-3	652	7190887903262313	CMakeFiles/CNFCalculator.dir/CNFCalculator.cpp.obj	bbbd58c4b9faa37e
-652	750	7190887904263273	libCNFCalculator.a	f98a18b09f4a6f16
-750	985	7190887906570181	cplusplus_learning.exe	3432c1bf7db67874
+935	1083	7186752430586641	cplusplus_learning.exe	7b1cd541927e0b9e
+3	934	7186752429139381	CMakeFiles/cplusplus_learning.dir/main.cpp.obj	c3a626aeabb633b0
+3	835	7190901756038824	CMakeFiles/CNFCalculator.dir/CNFCalculator.cpp.obj	bbbd58c4b9faa37e
+836	981	7190901757518202	libCNFCalculator.a	f98a18b09f4a6f16
+8	1080	7190901758491692	CMakeFiles/cplusplus_learning.dir/main.cpp.obj	c3a626aeabb633b0
+1080	1286	7190901760513171	cplusplus_learning.exe	3432c1bf7db67874
+3	650	7190903606625293	CMakeFiles/CNFCalculator.dir/CNFCalculator.cpp.obj	bbbd58c4b9faa37e
+651	743	7190903607638459	libCNFCalculator.a	f98a18b09f4a6f16
+7	869	7190903608889271	CMakeFiles/cplusplus_learning.dir/main.cpp.obj	c3a626aeabb633b0
+869	1042	7190903610586389	cplusplus_learning.exe	3432c1bf7db67874
+4	919	7190905085934203	CMakeFiles/cplusplus_learning.dir/main.cpp.obj	c3a626aeabb633b0
+920	1119	7190905087893301	cplusplus_learning.exe	3432c1bf7db67874
+4	921	7190905293522000	CMakeFiles/cplusplus_learning.dir/main.cpp.obj	c3a626aeabb633b0
+922	1093	7190905295217693	cplusplus_learning.exe	3432c1bf7db67874
+3	903	7190905483553352	CMakeFiles/cplusplus_learning.dir/main.cpp.obj	c3a626aeabb633b0
+903	1095	7190905485444641	cplusplus_learning.exe	3432c1bf7db67874

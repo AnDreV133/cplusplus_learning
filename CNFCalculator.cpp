@@ -128,7 +128,7 @@ vector<vector<bool>> getTruthTable(const TableOfStateOfVariable &tableOfStateOfV
 }
 
 
-//TableOfStateOfVariable getTableOfStateOfVariableByCNFFuncGottenFromString(const string &expression) {
+//TableOfStateOfVariable getTableOfStateOfVariableByCNFFunc(const string &expression) {
 //    TableOfStateOfVariable tableOfStateOfVariable;
 //
 //    tableOfStateOfVariable.matrixOfConditionValues.emplace_back();
@@ -188,7 +188,7 @@ vector<vector<bool>> getTruthTable(const TableOfStateOfVariable &tableOfStateOfV
 //    return tableOfStateOfVariable;
 //}
 
-TableOfStateOfVariable getTableOfStateOfVariableByCNFFuncGottenFromString(const string &expression) {
+TableOfStateOfVariable getTableOfStateOfVariableByCNFFunc(const string &expression) {
     TableOfStateOfVariable tableOfStateOfVariable;
     tableOfStateOfVariable.matrixOfConditionValues.emplace_back();
 
@@ -251,6 +251,20 @@ TableOfStateOfVariable getTableOfStateOfVariableByCNFFuncGottenFromString(const 
     return tableOfStateOfVariable;
 }
 
+bool isFormulaInconsistent(const TableOfStateOfVariable &tableOfStateOfVariable) {
+    for (const auto &res: getTruthTable(tableOfStateOfVariable)) {
+        if (res.back() != 0)
+            return false;
+    }
+
+    return true;
+
+}
+
+bool isFormulaInconsistent(const string &expression) {
+    return isFormulaInconsistent(getTableOfStateOfVariableByCNFFunc(expression));
+}
+
 void outputTableOfState(const TableOfStateOfVariable &tableOfStateValues) {
     for (auto &ai: tableOfStateValues.namesOfValues)
         cout << ai << "\t";
@@ -270,7 +284,11 @@ void outputMatrix(const vector<vector<bool>> &matrix) {
     }
 }
 
-void outputTruthTableByTableOfState(const TableOfStateOfVariable &tableOfStateOfVariable) {
+void outputTruthTable(const string &expression) {
+    outputTruthTable(getTableOfStateOfVariableByCNFFunc(expression));
+}
+
+void outputTruthTable(const TableOfStateOfVariable &tableOfStateOfVariable) {
     for (const auto &name: tableOfStateOfVariable.namesOfValues)
         cout << name << ' ';
     cout << "F\n";
