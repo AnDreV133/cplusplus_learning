@@ -47,4 +47,7 @@ void outputMatrix(const vector<vector<bool>> &matrix);
 
 vector<vector<bool>> getTruthTable(const TableOfStateOfVariable &tableOfStateOfVariable);
 
+void outputTruthTableByTableOfState(const TableOfStateOfVariable& tableOfStateOfVariable);
+
+
 #endif //CPLUSPLUS_LEARNING_CNFCALCULATOR_H

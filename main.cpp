@@ -1140,10 +1140,24 @@ gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(ofstream &outpust
 #include "CNFCalculator.h"
 
 int main() {
-    TableOfStateOfVariable tableOfStateOfVariable =
-            getTableOfStateOfVariableByCNFFuncGottenFromString("(x|y)&z");
-    outputTableOfState(tableOfStateOfVariable);
-    outputMatrix(getTruthTable(tableOfStateOfVariable));
+    string expressions[] = {
+            "a&(b|c)",
+            "~a&(b|c)",
+            "(x|y)&z",
+            "(~x|y)&z",
+            "(x|z)&(y|z)",
+            "(x|z)&(~y|z)",
+    };
+
+    for (const auto& expression: expressions) {
+        TableOfStateOfVariable tableOfStateOfVariable =
+                getTableOfStateOfVariableByCNFFuncGottenFromString(expression);
+
+//        outputTableOfState(tableOfStateOfVariable);
+        outputTruthTableByTableOfState(tableOfStateOfVariable);
+        cout << '\n';
+    }
+
 
 //    vector<vector<bool>> A = {
 //            {0, 1, 0, 0, 0},
