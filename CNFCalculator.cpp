@@ -61,8 +61,8 @@ inline int getIndexOfTokenInNamesOfValues(char t, const TableOfStateOfVariable &
 }
 
 template<typename T>
-void
-addElemByIndexWithUpdateSizeAndInitializeWithValue(vector<T> &array, int const index, T const elem, T const initVal) {
+void addElemByIndexWithUpdateSizeAndInitializeWithValue(
+        vector<T> &array, int const index, T const elem, T const initVal) {
     if (array.size() < index)
         array.resize((index + 1), initVal);
 
@@ -76,11 +76,6 @@ void addStateByIndex(vector<short> &row, int const index, short const elem) {
 TableOfStateOfVariable getTableOfStateOfVariableByCNFFuncGottenFromString(const string &expression) {
     TableOfStateOfVariable tableOfStateValues;
 
-    bool wasOpenPar = false;
-//    bool isPrevTokenExcluding = false;
-//    bool isPrevTokenVariable = false;
-//    bool isPrevTokenConjunction = false;
-//    bool isPrevTokenDisjunction = true;
     stack<char> stackOperations;
     for (auto const &token: expression) {
         if (isspace(token))
@@ -91,33 +86,17 @@ TableOfStateOfVariable getTableOfStateOfVariableByCNFFuncGottenFromString(const 
             exit(1);
         }
 
-        if (!stackOperations.empty() && isOperation(token)) {
+        if (!stackOperations.empty() && !isOpeningPar(stackOperations.top()) && (isConjunction(token) || isDisjunction(token))) {
             cerr << "Bad input! 1 token - " << token << "";
             exit(1);
         }
-        // todo дописать проверки на соответствие записи
-//
-//        if (isstackOperations.top() && isVariable(token)) {
-//            cerr << "Bad input! token - " << token << " state after variable.";
-//            exit(1);
-//        }
-//
-//        if (isPrevTokenExcluding && isExcluding(token)) {
-//            cerr << "Bad input! double excluding.";
-//            exit(1);
-//        }
-//
-//        if (isPrevTokenConjunction && isConjunction(token)) {
-//            cerr << "Bad input! double conjunction.";
-//            exit(1);
-//        }
-//
-//        if (wasOpenPar && isOpeningPar(token)) {
-//            cerr << "Bad input! double brackets.";
-//            exit(1);
-//        }
 
-        if (isOperationOrOpeningPar(stackOperations.top()) && isVariable(token)) {
+        if (stackOperations.empty() && )
+
+        if (isOpeningPar(stackOperations.top()) && (isClosingPar(token) || isDisjunction(token)))
+            stackOperations.pop();
+
+        if ((stackOperations.empty() || isOperationOrOpeningPar(stackOperations.top())) && isVariable(token)) {
             int indexOfToken = getIndexOfTokenInNamesOfValues(token, tableOfStateValues);
             if (indexOfToken < 0) {
                 tableOfStateValues.namesOfValues.push_back(token);
@@ -145,10 +124,55 @@ TableOfStateOfVariable getTableOfStateOfVariableByCNFFuncGottenFromString(const 
 
         if (isDisjunction(token))
             stackOperations.push(token);
+
+        if (isOpeningPar(token))
+            stackOperations.push(token);
     }
 
     return tableOfStateValues;
 }
+
+bool checkResult(const BinFunc &binFunc) {
+    // Вводим значения
+    vector<int> checkedResult;
+    for (auto &ai: binFunc.namesOfValues)
+        cout << ai << ' ';
+    cout << "set result for check\n";
+    for (int i = 0; i < binFunc.namesOfValues.size(); ++i) {
+        int value;
+        cin >> value;
+        if (value != 0 && value != 1) {
+            cerr << "Input error\n";
+            return false;
+        }
+
+        checkedResult.push_back(value);
+    }
+    // Проверяем введённые значения с матрицей
+    for (int i = 0; i < binFunc.matrixOfConditionValues.size(); ++i) {
+        bool isEqual = false;
+        for (int j = 0; j < binFunc.numOfVariables; ++j) {
+            // Пропускаем не введённые поля
+            if (binFunc.matrixOfConditionValues[i][j] == -1)
+                continue;
+            // Проверяем введённые
+            if (binFunc.type == DNF && binFunc.matrixOfConditionValues[i][j] == checkedResult[j]
+                || binFunc.type == KNF && binFunc.matrixOfConditionValues[i][j] != checkedResult[j])
+                isEqual = true;
+            else {
+                isEqual = false;
+                break;
+            }
+        }
+        // Если в одной из итераций находится нужный набор,
+        // то выдаём результат
+        if (isEqual)
+            return binFunc.type == DNF;
+    }
+    // Иначе выводим обратный результат
+    return binFunc.type != DNF;
+}
+
 
 void setBinFunc(BinFunc &binFunc) {
     // Ввод типа функции - ДНФ это или КНФ
@@ -214,7 +238,6 @@ void setBinFunc(BinFunc &binFunc) {
     }
 }
 
-
 void outputTableOfState(const TableOfStateOfVariable &tableOfStateValues) {
     for (auto &ai: tableOfStateValues.namesOfValues)
         cout << ai << "\t";
@@ -224,47 +247,6 @@ void outputTableOfState(const TableOfStateOfVariable &tableOfStateValues) {
             cout << aij << "\t";
         cout << '\n';
     }
-}
-
-bool checkResult(const BinFunc &binFunc) {
-    // Вводим значения
-    vector<int> checkedResult;
-    for (auto &ai: binFunc.namesOfValues)
-        cout << ai << ' ';
-    cout << "set result for check\n";
-    for (int i = 0; i < binFunc.namesOfValues.size(); ++i) {
-        int value;
-        cin >> value;
-        if (value != 0 && value != 1) {
-            cerr << "Input error\n";
-            return false;
-        }
-
-        checkedResult.push_back(value);
-    }
-    // Проверяем введённые значения с матрицей
-    for (int i = 0; i < binFunc.matrixOfConditionValues.size(); ++i) {
-        bool isEqual = false;
-        for (int j = 0; j < binFunc.numOfVariables; ++j) {
-            // Пропускаем не введённые поля
-            if (binFunc.matrixOfConditionValues[i][j] == -1)
-                continue;
-            // Проверяем введённые
-            if (binFunc.type == DNF && binFunc.matrixOfConditionValues[i][j] == checkedResult[j]
-                || binFunc.type == KNF && binFunc.matrixOfConditionValues[i][j] != checkedResult[j])
-                isEqual = true;
-            else {
-                isEqual = false;
-                break;
-            }
-        }
-        // Если в одной из итераций находится нужный набор,
-        // то выдаём результат
-        if (isEqual)
-            return binFunc.type == DNF;
-    }
-    // Иначе выводим обратный результат
-    return binFunc.type != DNF;
 }
 
 //int main() {
