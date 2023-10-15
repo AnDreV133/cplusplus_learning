@@ -248,6 +248,15 @@ cplusplus_learning_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 cplusplus_learning_SOURCE_DIR:STATIC=T:/c github pc/cplusplus_learning
 
+//Value Computed by CMake
+project_BINARY_DIR:STATIC=T:/c github pc/cplusplus_learning/cmake-build-debug
+
+//Value Computed by CMake
+project_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+project_SOURCE_DIR:STATIC=T:/c github pc/cplusplus_learning
+
 
 ########################
 # INTERNAL cache entries

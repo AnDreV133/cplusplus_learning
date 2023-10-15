@@ -41,13 +41,44 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = T$:/c$ github$ pc/cplusplus_learning/cmake-build-debug/
 # =============================================================================
+# Object build statements for STATIC_LIBRARY target CNFCalculator
+
+
+#############################################
+# Order-only phony target for CNFCalculator
+
+build cmake_object_order_depends_target_CNFCalculator: phony || CMakeFiles/CNFCalculator.dir
+
+build CMakeFiles/CNFCalculator.dir/CNFCalculator.cpp.obj: CXX_COMPILER__CNFCalculator_Debug T$:/c$ github$ pc/cplusplus_learning/CNFCalculator.cpp || cmake_object_order_depends_target_CNFCalculator
+  DEP_FILE = CMakeFiles\CNFCalculator.dir\CNFCalculator.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\CNFCalculator.dir
+  OBJECT_FILE_DIR = CMakeFiles\CNFCalculator.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target CNFCalculator
+
+
+#############################################
+# Link the static library libCNFCalculator.a
+
+build libCNFCalculator.a: CXX_STATIC_LIBRARY_LINKER__CNFCalculator_Debug CMakeFiles/CNFCalculator.dir/CNFCalculator.cpp.obj
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = CMakeFiles\CNFCalculator.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = libCNFCalculator.a
+  TARGET_PDB = CNFCalculator.a.dbg
+
+# =============================================================================
 # Object build statements for EXECUTABLE target cplusplus_learning
 
 
 #############################################
 # Order-only phony target for cplusplus_learning
 
-build cmake_object_order_depends_target_cplusplus_learning: phony || CMakeFiles/cplusplus_learning.dir
+build cmake_object_order_depends_target_cplusplus_learning: phony || cmake_object_order_depends_target_CNFCalculator
 
 build CMakeFiles/cplusplus_learning.dir/main.cpp.obj: CXX_COMPILER__cplusplus_learning_Debug T$:/c$ github$ pc/cplusplus_learning/main.cpp || cmake_object_order_depends_target_cplusplus_learning
   DEP_FILE = CMakeFiles\cplusplus_learning.dir\main.cpp.obj.d
@@ -63,9 +94,9 @@ build CMakeFiles/cplusplus_learning.dir/main.cpp.obj: CXX_COMPILER__cplusplus_le
 #############################################
 # Link the executable cplusplus_learning.exe
 
-build cplusplus_learning.exe: CXX_EXECUTABLE_LINKER__cplusplus_learning_Debug CMakeFiles/cplusplus_learning.dir/main.cpp.obj
+build cplusplus_learning.exe: CXX_EXECUTABLE_LINKER__cplusplus_learning_Debug CMakeFiles/cplusplus_learning.dir/main.cpp.obj | libCNFCalculator.a || libCNFCalculator.a
   FLAGS = -g
-  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = libCNFCalculator.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\cplusplus_learning.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -99,6 +130,8 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
+build CNFCalculator: phony libCNFCalculator.a
+
 build cplusplus_learning: phony cplusplus_learning.exe
 
 # =============================================================================
@@ -109,7 +142,7 @@ build cplusplus_learning: phony cplusplus_learning.exe
 #############################################
 # Folder: T:/c github pc/cplusplus_learning/cmake-build-debug
 
-build all: phony cplusplus_learning.exe
+build all: phony libCNFCalculator.a cplusplus_learning.exe
 
 # =============================================================================
 # Built-in targets

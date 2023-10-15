@@ -369,6 +369,7 @@
 #include <iostream>
 #include <fstream>
 #include <valarray>
+#include "CNFCalculator.h"
 
 using namespace std;
 
@@ -878,8 +879,8 @@ void printCoord(vector<vector<bool>> A) {
 //struct BinFunc {
 //    int type; // ДНФ или КНФ
 //    unsigned numOfVariables; // Кол-во переменных
-//    vector<char> names; // Названия переменных
-//    vector<vector<short>> values; // Матрица состояний переменных
+//    vector<char> namesOfValues; // Названия переменных
+//    vector<vector<short>> matrixOfConditionValues; // Матрица состояний переменных
 //};
 //
 //void setBinFunc(BinFunc &binFunc) {
@@ -895,8 +896,8 @@ void printCoord(vector<vector<bool>> A) {
 //    cout << "Write num of variables\n";
 //    cin >> binFunc.numOfVariables;
 //    // Инициализируем вектора
-//    binFunc.names = vector<char>();
-//    binFunc.values = vector<vector<short>>(
+//    binFunc.namesOfValues = vector<char>();
+//    binFunc.matrixOfConditionValues = vector<vector<short>>(
 //            1 << binFunc.numOfVariables,
 //            vector<short>(binFunc.numOfVariables, -1)
 //    );
@@ -918,8 +919,8 @@ void printCoord(vector<vector<bool>> A) {
 //        // В цикле ищем заданную переменную, если находим,
 //        // инициализируем индекс, где стоит эта переменная
 //        int indexOfVariable = -1;
-//        for (int i = 0; i < binFunc.names.size(); ++i) {
-//            if (tempName == binFunc.names[i]) {
+//        for (int i = 0; i < binFunc.namesOfValues.size(); ++i) {
+//            if (tempName == binFunc.namesOfValues[i]) {
 //                indexOfVariable = i;
 //                break;
 //            }
@@ -927,11 +928,11 @@ void printCoord(vector<vector<bool>> A) {
 //        // Если не нашли индекс, тогда записываем новую переменную,
 //        // устанавливаем индекс, проверяем на допустимое кол-во переменных
 //        if (indexOfVariable < 0) {
-//            indexOfVariable = (int) binFunc.names.size();
+//            indexOfVariable = (int) binFunc.namesOfValues.size();
 //            if (indexOfVariable < binFunc.numOfVariables) {
-//                binFunc.names.push_back(tempName);
+//                binFunc.namesOfValues.push_back(tempName);
 //            } else {
-//                cerr << "Amount names exceeded\n";
+//                cerr << "Amount namesOfValues exceeded\n";
 //                return;
 //            }
 //        }
@@ -945,17 +946,17 @@ void printCoord(vector<vector<bool>> A) {
 //            return;
 //        }
 //        // Записываем состояние переменной
-//        binFunc.values[counterOfInterpretation][indexOfVariable] = tempState;
+//        binFunc.matrixOfConditionValues[counterOfInterpretation][indexOfVariable] = tempState;
 //    }
 //}
 //
 //bool checkResult(const BinFunc &binFunc) {
 //    // Вводим значения
 //    vector<int> checkedResult;
-//    for (auto &ai: binFunc.names)
+//    for (auto &ai: binFunc.namesOfValues)
 //        cout << ai << ' ';
 //    cout << "set result for check\n";
-//    for (int i = 0; i < binFunc.names.size(); ++i) {
+//    for (int i = 0; i < binFunc.namesOfValues.size(); ++i) {
 //        int value;
 //        cin >> value;
 //        if (value != 0 && value != 1) {
@@ -966,15 +967,15 @@ void printCoord(vector<vector<bool>> A) {
 //        checkedResult.push_back(value);
 //    }
 //    // Проверяем введённые значения с матрицей
-//    for (int i = 0; i < binFunc.values.size(); ++i) {
+//    for (int i = 0; i < binFunc.matrixOfConditionValues.size(); ++i) {
 //        bool isEqual = false;
 //        for (int j = 0; j < binFunc.numOfVariables; ++j) {
 //            // Пропускаем не введённые поля
-//            if (binFunc.values[i][j] == -1)
+//            if (binFunc.matrixOfConditionValues[i][j] == -1)
 //                continue;
 //            // Проверяем введённые
-//            if (binFunc.type == DNF && binFunc.values[i][j] == checkedResult[j]
-//                || binFunc.type == KNF && binFunc.values[i][j] != checkedResult[j])
+//            if (binFunc.type == DNF && binFunc.matrixOfConditionValues[i][j] == checkedResult[j]
+//                || binFunc.type == KNF && binFunc.matrixOfConditionValues[i][j] != checkedResult[j])
 //                isEqual = true;
 //            else {
 //                isEqual = false;
@@ -994,10 +995,10 @@ void printCoord(vector<vector<bool>> A) {
 //    BinFunc binFunc;
 //    setBinFunc(binFunc);
 //
-//    for (auto &ai: binFunc.names)
+//    for (auto &ai: binFunc.namesOfValues)
 //        cout << ai << "\t";
 //    cout << '\n';
-//    for (const auto &ai: binFunc.values) {
+//    for (const auto &ai: binFunc.matrixOfConditionValues) {
 //        cout << '\n';
 //        for (auto &aij: ai)
 //            cout << aij << "\t";
@@ -1135,6 +1136,9 @@ void gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(ofstream& ou
 }
 
 int main() {
+    outputTableOfState(getTableOfStateOfVariableByCNFFuncGottenFromString("x|y&z"));
+
+
 //    vector<vector<bool>> A = {
 //            {0, 1, 0, 0, 0},
 //            {0, 0, 1, 0, 0},
@@ -1149,42 +1153,58 @@ int main() {
 
 //    vector<vector<bool>> B = generateRelationByRandom(5, 4);
 //    printRelation(B);
+//    BinFunc binFunc;
+//    setBinFunc(binFunc);
+//
+//    for (auto &ai: binFunc.namesOfValues)
+//        cout << ai << "\t";
+//    cout << '\n';
+//    for (const auto &ai: binFunc.matrixOfConditionValues) {
+//        cout << '\n';
+//        for (auto &aij: ai)
+//            cout << aij << "\t";
+//    }
+//    cout << '\n';
+//
+//    while (true) {
+//        cout << checkResult(binFunc) << '\n';
+//    }
 
-    ofstream fileStream("../testTransitiveClosure.txt");
-
-    if (!fileStream.is_open()) {
-        cerr << "File not open";
-        exit(1);
-    }
-
-    for (int n = 5; n <= 15; n += 5) {
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n,  1, getTransitiveClosureInj);
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n,  1, getTransitiveClosureByWarshellAlgorithmInj);
-
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n, (int) getFuncN2Div4(n), getTransitiveClosureInj);
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n, (int) getFuncN2Div4(n), getTransitiveClosureByWarshellAlgorithmInj);
-
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n, (int) getFuncN2Mult2Div3(n), getTransitiveClosureInj);
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n, (int) getFuncN2Mult2Div3(n), getTransitiveClosureByWarshellAlgorithmInj);
-
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n, (int) getFuncN2Div2(n), getTransitiveClosureInj);
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n, (int) getFuncN2Div2(n), getTransitiveClosureByWarshellAlgorithmInj);
-
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n, (int) getFuncN2(n), getTransitiveClosureInj);
-        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
-                fileStream, n, (int) getFuncN2(n), getTransitiveClosureByWarshellAlgorithmInj);
-    }
-
-    fileStream.close();
+//    ofstream fileStream("../testTransitiveClosure.txt");
+//
+//    if (!fileStream.is_open()) {
+//        cerr << "File not open";
+//        exit(1);
+//    }
+//
+//    for (int n = 5; n <= 15; n += 5) {
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n,  1, getTransitiveClosureInj);
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n,  1, getTransitiveClosureByWarshellAlgorithmInj);
+//
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n, (int) getFuncN2Div4(n), getTransitiveClosureInj);
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n, (int) getFuncN2Div4(n), getTransitiveClosureByWarshellAlgorithmInj);
+//
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n, (int) getFuncN2Mult2Div3(n), getTransitiveClosureInj);
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n, (int) getFuncN2Mult2Div3(n), getTransitiveClosureByWarshellAlgorithmInj);
+//
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n, (int) getFuncN2Div2(n), getTransitiveClosureInj);
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n, (int) getFuncN2Div2(n), getTransitiveClosureByWarshellAlgorithmInj);
+//
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n, (int) getFuncN2(n), getTransitiveClosureInj);
+//        gettingMinNMaxNumOfExecutionsOn1000ExperimentWithWriteToStream(
+//                fileStream, n, (int) getFuncN2(n), getTransitiveClosureByWarshellAlgorithmInj);
+//    }
+//
+//    fileStream.close();
 
     return 0;
 }
